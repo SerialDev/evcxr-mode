@@ -109,7 +109,7 @@ Unless ARG is non-nil, switch to the buffer."
   (evcxr t)
   (comint-send-string evcxr-buffer
     ;; (replace-regexp-in-string "\n\s\+" " "(buffer-substring-no-properties begin end)))
-    (replace-regexp-in-string "[]\n?[[:space:]]+" " "(buffer-substring-no-properties begin end)))
+    (replace-regexp-in-string "\n[[:space:]]?" " "(buffer-substring-no-properties begin end)))
   (comint-send-string evcxr-buffer "\n"))
 
 
