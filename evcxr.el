@@ -131,6 +131,7 @@ current one."
     (define-key map "\C-c\C-c" #'evcxr-eval-buffer)
     (define-key map "\C-c\C-r" #'evcxr-eval-region)
     (define-key map "\C-c\C-l" #'evcxr-eval-line)
+    (define-key map "\C-c\C-p" #'evcxr)
     map)
   "Mode map for `evcxr-minor-mode'.")
 
@@ -145,6 +146,7 @@ current one."
     ["Eval Buffer" evcxr-eval-buffer :help "Evaluate buffer with Evcxr"]
     ["Eval Region" evcxr-eval-region :help "Evaluate selected region with Evcxr"]
     ["Eval Line" evcxr-eval-line :help "Evaluate current line with Evcxr"]))
+
 
 ;;;###autoload
 (define-minor-mode evcxr-minor-mode
