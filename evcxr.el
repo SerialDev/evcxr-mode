@@ -4,11 +4,12 @@
 
 ;; Author: Andres Mariscal <carlos.mariscal.melgar@gmail.com>
 ;; Created: 26 Sep 2018
+;; Version: 0.0.1
 ;; Keywords: rust languages repl
 ;; URL: https://github.com/serialdev/evcxr-mode
-;; Package-Requires: ((emacs "24"))
+;; Package-Requires: ((emacs "24.3"))
 ;;; Commentary:
-;; 
+;; Rust Repl support through evcxr repl
 (require 'comint)
 
 (defgroup evcxr nil
@@ -155,6 +156,9 @@ Usage:
   :keymap evcxr-minor-mode-map)
 
 
-(provide 'evcxr-mode)
+(provide 'evcxr)
 
-;;; evcxr-mode.el ends here
+;;; evcxr.el ends here
+
+
+
