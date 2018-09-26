@@ -71,7 +71,8 @@ Unless ARG is non-nil, switch to the buffer."
     (unless (evcxr-is-running?)
       (with-current-buffer buffer
         (evcxr-startup)
-        (evcxr-mode)))
+        (evcxr-mode))
+      (pop-to-buffer buffer))
     buffer))
 
 
