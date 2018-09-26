@@ -1,4 +1,9 @@
 # Installation:  
+
+```
+cargo install evcxr
+```
+
 I highly recommend using the straight package manager  
 
 ```
