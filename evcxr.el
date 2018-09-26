@@ -7,7 +7,7 @@
 ;; Version: 0.0.1
 ;; Keywords: rust languages repl
 ;; URL: https://github.com/serialdev/evcxr-mode
-;; Package-Requires: ((emacs "24.3"))
+;; Package-Requires: ((emacs "24.3", ))
 ;;; Commentary:
 ;; Rust Repl support through evcxr repl
 (require 'comint)
@@ -101,12 +101,16 @@ Unless ARG is non-nil, switch to the buffer."
   (setq-local comint-prompt-read-only evcxr-prompt-read-only)
   )
 
+
+
 (defun evcxr-eval-region (begin end)
   "Evaluate region between BEGIN and END."
   (interactive "r")
   (evcxr t)
-  (comint-send-region evcxr-buffer begin end)
+  (comint-send-string evcxr-buffer
+    (replace-regexp-in-string "\n\s\+" " "(buffer-substring-no-properties begin end)))
   (comint-send-string evcxr-buffer "\n"))
+
 
 (defun evcxr-eval-buffer ()
   "Evaluate complete buffer."
@@ -161,6 +165,3 @@ Usage:
 (provide 'evcxr)
 
 ;;; evcxr.el ends here
-
-
-
