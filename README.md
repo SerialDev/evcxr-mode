@@ -2,6 +2,7 @@
 
 ```
 cargo install evcxr
+cargo install evcxr_repl
 ```
 
 I highly recommend using the straight package manager
@@ -34,7 +35,11 @@ C-c C-r [eval region]
 C-c C-t [Type Check under point]
 ```
 
-
+## Gotchas
+Make sure that your cargo bin is accessible to emacs
+```
+(setq exec-path (append exec-path '("/home/usr/.cargo/bin")))
+```
 
 ## Rust Repl mode based on:
 
