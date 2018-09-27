@@ -41,10 +41,11 @@
   :group 'evcxr
   :type 'file)
 
-(defcustom evcxr-prompt-regexp "^>> "
+(defcustom evcxr-prompt-regexp "^[[>> "
   "Regexp to match prompts for evcxr."
   :group 'evcxr
   :type 'regexp)
+
 
 (defcustom evcxr-prompt-read-only t
   "Make the prompt read only.
@@ -93,7 +94,7 @@ Unless ARG is non-nil, switch to the buffer."
   "Major mode for evcxr."
   (setq comint-prompt-regexp evcxr-prompt-regexp
         comint-use-prompt-regexp t)
-  (setq-local comment-start "// ")
+  (setq-local comment-start ">> ")
   (setq-local comment-end "")
   (setq-local comint-prompt-read-only evcxr-prompt-read-only)
   )
@@ -109,6 +110,12 @@ Unless ARG is non-nil, switch to the buffer."
     (replace-regexp-in-string "\n[[:space:]]?" " "(buffer-substring-no-properties begin end)))
   (comint-send-string evcxr-buffer "\n"))
 
+(defun evcxr-type-check ()
+  (interactive)
+  ;; (comint-send-string evcxr-buffer (message "%s" (concat "let evcxrmodetype: () = " (thing-at-point 'symbol) ";")))
+  (comint-send-string evcxr-buffer (concat "let evcxrmodetype: () = " (thing-at-point 'symbol) ";"))
+  (comint-send-string evcxr-buffer "\n")
+  )
 
 (defun evcxr-eval-buffer ()
   "Evaluate complete buffer."
@@ -133,6 +140,7 @@ current one."
     (define-key map "\C-c\C-c" #'evcxr-eval-buffer)
     (define-key map "\C-c\C-r" #'evcxr-eval-region)
     (define-key map "\C-c\C-l" #'evcxr-eval-line)
+    (define-key map "\C-c\C-t" #'evcxr-type-check)
     (define-key map "\C-c\C-p" #'evcxr)
     map)
   "Mode map for `evcxr-minor-mode'.")
