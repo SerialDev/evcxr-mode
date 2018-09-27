@@ -23,6 +23,8 @@
   :group 'evcxr
   :type 'file)
 
+;; (shell-command-to-string "evcxr")
+
 (defcustom evcxr-args nil
   "Command line arguments for `evcxr-program'."
   :group 'evcxr
@@ -39,12 +41,7 @@
   :group 'evcxr
   :type 'file)
 
-(defcustom evcxr-prompt-regexp "^# "
-  "Regexp to match prompts for evcxr."
-  :group 'evcxr
-  :type 'regexp)
-
-(defcustom evcxr-prompt-regexp "^ "
+(defcustom evcxr-prompt-regexp "^>> "
   "Regexp to match prompts for evcxr."
   :group 'evcxr
   :type 'regexp)
