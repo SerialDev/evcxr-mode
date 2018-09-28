@@ -33,6 +33,11 @@ C-c C-c [Eval buffer]
 C-c C-l [Eval line]
 C-c C-r [eval region]
 C-c C-t [Type Check under point]
+C-c C-o [Toggle optimization]
+C-c C-v [Display bound variables]
+C-c C-e [Explain last Error]
+C-c C-s [Clear State & keep compilation cache]
+C-c C-t [Type Check under point]
 ```
 
 ## Gotchas
