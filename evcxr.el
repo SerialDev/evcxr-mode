@@ -41,7 +41,7 @@
   :group 'evcxr
   :type 'file)
 
-(defcustom evcxr-prompt-regexp "^[[>> "
+(defcustom evcxr-prompt-regexp "^>> "
   "Regexp to match prompts for evcxr."
   :group 'evcxr
   :type 'regexp)
