@@ -23,6 +23,12 @@ Alternatively pull the repo and add to your init file
 ```
 git clone https://github.com/SerialDev/evcxr-mode
 ```
+
+## Optional requirements
+
+It is preferable to have hydra installed, since I have provided a hydra interface.
+To get the full support of the hydras it is recommended that you install cargo.el
+
 !TODO: Will be added to melpa once all basic functionality works
 
 # Current functionality:
