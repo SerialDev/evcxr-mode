@@ -232,7 +232,7 @@ See `comint-prompt-read-only' for details."
     	    )))
     (compilation-shell-minor-mode 1)))
 
-(if (require 'hydras nil 'noerror)
+(if (require 'hydra nil 'noerror)
     (defhydra evcxr-hydra- (:color pink
 					  :hint nil)
       "
@@ -264,8 +264,44 @@ See `comint-prompt-read-only' for details."
       )
   (message "Hydra keymap disabled since no hydras installed"))
 
-(defun evcxr-rust-keymap()
 (if (require 'hydras nil 'noerror)
+    (defhydra hydra-rust (:color pink :hint nil)
+      "
+    ^Rust Cargo commands^
+    ----------------------------------------------------------------------------------
+    _r_: Run          _i_: Init          _u_: Update               _+r_: Release O
+    _x_: Run-example  _n_: New           _c_: Repeat               _+b_: Build O
+    _b_: Build        _f_: Current-test  _e_: Bench
+    _l_: Clean        _s_: Search        _o_: Current-file-tests
+    _d_: Doc          _t_: Test          _m_: Fmt
+    _|_: Doc Tree     _k_: Check         _q_: Clippy
+    "
+      ("e"   cargo-process-bench :color blue)
+      ("b"   cargo-process-build :color blue)
+      ("l"   cargo-process-clean :color blue)
+      ("d"   cargo-process-doc :color blue)
+      ("n"   cargo-process-new :color blue)
+      ("i"   cargo-process-init :color blue)
+      ("r"   cargo-process-run :color blue)
+      ("x"   cargo-process-run-example :color blue)
+      ("s"   cargo-process-search :color blue)
+      ("t"   cargo-process-test :color blue)
+      ("u"   cargo-process-update :color blue)
+      ("c"   cargo-process-repeat :color blue)
+      ("f"   cargo-process-current-test :color blue)
+      ("o"   cargo-process-current-file-tests :color blue)
+      ("m"   cargo-process-fmt :color blue)
+      ("+r" cargo-process-run-optimized :color blue)
+      ("+b" cargo-process-build-optimized :color blue)
+      ("|"   tiqsi/cargo-doc-tree :color blue)
+      ("k"   cargo-process-check color: red)
+      ("q" cargo-process-clippy :color blue)
+      ("ESC" nil "Exit"))
+  (message "Hydra cargo keymap disabled since no hydras installed"))
+
+
+(defun evcxr-rust-keymap()
+(if (require 'hydra nil 'noerror)
     (define-key rust-mode-map (kbd "C-c") #'evcxr-hydra-/body)
   (progn
     (define-key rust-mode-map (kbd "C-c C-c") #'evcxr-eval-buffer)
@@ -280,7 +316,7 @@ See `comint-prompt-read-only' for details."
     (define-key rust-mode-map (kbd "C-c C-p") #'evcxr))))
 
 
-(evcxr-rust-keymap)
+
 (provide 'evcxr)
 
 ;;; evcxr.el ends here
