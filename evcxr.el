@@ -110,9 +110,6 @@ current one."
      (line-beginning-position)
      (line-end-position arg))))
 
-;;;###autoload
-(evcxr-rust-keymap)
-
 
 ;;; Shell integration
 
@@ -315,6 +312,9 @@ See `comint-prompt-read-only' for details."
     (define-key rust-mode-map (kbd "C-c C-e") #'evcxr-help-explain-error)
     (define-key rust-mode-map (kbd "C-c C-p") #'evcxr))))
 
+
+;;;###autoload
+(evcxr-rust-keymap)
 
 
 (provide 'evcxr)
