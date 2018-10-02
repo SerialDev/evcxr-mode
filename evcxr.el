@@ -244,14 +244,14 @@ See `comint-prompt-read-only' for details."
     _C-p_: Start Repl         ^ ^                      _C-c_: Cargo hydra
 
     "
-      ("C-r" evcxr-eval-region :color blue)
-      ("C-l" evcxr-eval-line :color blue)
+      ("C-r" evcxr-eval-region :color pink)
+      ("C-l" evcxr-eval-line :color pink)
       ("C-b" evcxr-eval-buffer :color blue)
-      ("C-v" evcxr-help-bound-vars :color blue)
+      ("C-v" evcxr-help-bound-vars :color pink)
       ("C-p" evcxr :color blue)
 
-      ("C-t" evcxr-type-check :color blue)
-      ("C-i" evcxr-type-check-in-container :color blue)
+      ("C-t" evcxr-type-check :color pink)
+      ("C-i" evcxr-type-check-in-container :color pink)
 
       ("C-o" evcxr-help-toggle-optimization :color blue)
       ("C-s" evcxr-help-clear-state :color blue)
@@ -261,7 +261,7 @@ See `comint-prompt-read-only' for details."
       )
   (message "Hydra keymap disabled since no hydras installed"))
 
-(if (require 'hydras nil 'noerror)
+(if (require 'hydra nil 'noerror)
     (defhydra hydra-rust (:color pink :hint nil)
       "
     ^Rust Cargo commands^
@@ -299,7 +299,7 @@ See `comint-prompt-read-only' for details."
 
 (defun evcxr-rust-keymap()
 (if (require 'hydra nil 'noerror)
-    (define-key rust-mode-map (kbd "C-c") #'evcxr-hydra-/body)
+    (define-key rust-mode-map (kbd "C-c C-c") #'evcxr-hydra-/body)
   (progn
     (define-key rust-mode-map (kbd "C-c C-c") #'evcxr-eval-buffer)
     (define-key rust-mode-map (kbd "C-c C-r") #'evcxr-eval-region)
