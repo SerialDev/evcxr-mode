@@ -256,6 +256,7 @@ See `comint-prompt-read-only' for details."
       ("C-o" evcxr-help-toggle-optimization :color blue)
       ("C-s" evcxr-help-clear-state :color blue)
       ("C-e" evcxr-help-explain-error :color blue)
+      ("C-c" hydra-rust/body :color blue)
 
       ("ESC" nil "Exit")
       )
