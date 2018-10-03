@@ -234,7 +234,7 @@ See `comint-prompt-read-only' for details."
 					  :hint nil)
       "
 											       ╭──────┐
-     Repl              ^ ^        Types      ^ ^       Info        ^ ^                         │ Ukhu │
+     Repl              ^ ^        Types      ^ ^       Info        ^ ^                               │*Evcxr│
     ╭──────────────────────────────────────────────────────────────────────────────────────────┴──────╯
     ^^
     _C-r_: Eval Region        _C-t_: Type Check        _C-o_: Toggle optimization
