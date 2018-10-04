@@ -94,7 +94,7 @@ sDependency version: ")
     (if (file-exists-p file)
         file
       (when parent
-        (find-file-in-heirarchy parent fname)))))
+        (evcxr-find-file-in-hierarchy parent fname)))))
 
 
 (defun evcxr-get-string-from-file (filePath)
