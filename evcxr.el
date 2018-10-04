@@ -72,6 +72,18 @@ Unless ARG is non-nil, switch to the buffer."
   (comint-send-string evcxr-shell-buffer-name "\n")
   )
 
+(defun evcxr-add-dep(dep version)
+  (interactive "sDependency name:
+sDependency version: ")
+  (let ((dependency (concat ":dep " dep " = " "\"" version "\"")))
+  (progn
+    (comint-send-string evcxr-shell-buffer-name dependency)
+    (comint-send-string evcxr-shell-buffer-name "\n"))
+    (print (concat "Dependency " dependency " added "))
+    )
+)
+
+
 (defun evcxr-help-bound-vars ()
   (interactive)
   (comint-send-string evcxr-shell-buffer-name ":vars")
@@ -239,16 +251,15 @@ See `comint-prompt-read-only' for details."
     ^^
     _C-r_: Eval Region        _C-t_: Type Check        _C-o_: Toggle optimization
     _C-l_: Eval line          _C-i_: Type in container _C-s_: Clear State
-    _C-b_: Eval Buffer        ^ ^		           _C-e_: Explain Error
+    _C-b_: Eval Buffer        ^ ^	               _C-e_: Explain Error
     _C-v_: Check bound vars   ^ ^       		   ^ ^
-    _C-p_: Start Repl         ^ ^                      _C-c_: Cargo hydra
+    _C-p_: Start Repl         _C-d_: Add Dependency    _C-c_: Cargo hydra
 
     "
       ("C-r" evcxr-eval-region :color pink)
       ("C-l" evcxr-eval-line :color pink)
       ("C-b" evcxr-eval-buffer :color blue)
       ("C-v" evcxr-help-bound-vars :color pink)
-      ("C-p" evcxr :color blue)
 
       ("C-t" evcxr-type-check :color pink)
       ("C-i" evcxr-type-check-in-container :color pink)
@@ -256,6 +267,9 @@ See `comint-prompt-read-only' for details."
       ("C-o" evcxr-help-toggle-optimization :color blue)
       ("C-s" evcxr-help-clear-state :color blue)
       ("C-e" evcxr-help-explain-error :color blue)
+
+      ("C-p" evcxr :color blue)
+      ("C-d" evcxr-add-dep :color pink)
       ("C-c" hydra-rust/body :color blue)
 
       ("ESC" nil "Exit")
@@ -303,6 +317,7 @@ See `comint-prompt-read-only' for details."
     (define-key rust-mode-map (kbd "C-c C-c") #'evcxr-hydra-/body)
   (progn
     (define-key rust-mode-map (kbd "C-c C-c") #'evcxr-eval-buffer)
+    (define-key rust-mode-map (kbd "C-c C-d") #'evcxr-add-dep)
     (define-key rust-mode-map (kbd "C-c C-r") #'evcxr-eval-region)
     (define-key rust-mode-map (kbd "C-c C-l") #'evcxr-eval-line)
     (define-key rust-mode-map (kbd "C-c C-t") #'evcxr-type-check)
