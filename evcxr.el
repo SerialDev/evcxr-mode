@@ -79,9 +79,38 @@ sDependency version: ")
   (progn
     (comint-send-string evcxr-shell-buffer-name dependency)
     (comint-send-string evcxr-shell-buffer-name "\n"))
-    (print (concat "Dependency " dependency " added "))
-    )
-)
+    (print (concat "Dependency " dependency " added "))))
+
+
+
+(defun evcxr-parent-directory (dir)
+  (unless (equal "/" dir)
+    (file-name-directory (directory-file-name dir))))
+
+(defun evcxr-find-file-in-hierarchy (current-dir fname)
+  "Search for a file named FNAME upwards through the directory hierarchy, starting from CURRENT-DIR"
+  (let ((file (concat current-dir fname))
+        (parent (evcxr-parent-directory (expand-file-name current-dir))))
+    (if (file-exists-p file)
+        file
+      (when parent
+        (find-file-in-heirarchy parent fname)))))
+
+
+(defun evcxr-get-string-from-file (filePath)
+  "Return filePath's file content.
+;; thanks to “Pascal J Bourguignon” and “TheFlyingDutchman 〔zzbba…@aol.com〕”. 2010-09-02
+"
+  (with-temp-buffer
+    (insert-file-contents filePath)
+    (buffer-string)))
+
+
+(defun get-cargo-file()
+  (interactive)
+  (let ((cargo-file (evcxr-get-string-from-file
+		   (evcxr-find-file-in-hierarchy (file-name-directory buffer-file-name) "Cargo.toml"))))
+      (print cargo-file)))
 
 
 (defun evcxr-help-bound-vars ()
