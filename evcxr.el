@@ -388,6 +388,7 @@ See `comint-prompt-read-only' for details."
       ("C-c" hydra-rust/body :color blue)
 
       ("ESC" nil "Exit")
+      ("q" nil "Exit")
       )
   (message "Hydra keymap disabled since no hydras installed"))
 
