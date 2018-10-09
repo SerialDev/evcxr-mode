@@ -87,8 +87,10 @@
   (let ((dependency (concat ":dep " (format "%s" dep) " = " (format "%s" version) )))
     (progn
       (comint-send-string evcxr-shell-buffer-name dependency)
-      (comint-send-string evcxr-shell-buffer-name "\n"))
-    (print (concat "Dependency " dependency " added "))))
+      (comint-send-string evcxr-shell-buffer-name "\n")
+      (print (concat "Dependency " dependency " added "))
+      )
+    ))
 
 (defun evcxr-load-cargo()
   (interactive)
@@ -115,6 +117,7 @@ Unless ARG is non-nil, switch to the buffer."
         (inferior-evcxr-mode)
 	)
       (pop-to-buffer buffer)
+      (other-window -1)
       )
     ;; (with-current-buffer buffer (inferior-evcxr-mode))
     buffer))
@@ -362,8 +365,8 @@ See `comint-prompt-read-only' for details."
     ^^
     _C-r_: Eval Region        _C-t_: Type Check        _C-o_: Toggle optimization
     _C-l_: Eval line          _C-i_: Type in container _C-s_: Clear State
-    _C-b_: Eval Buffer        ^ ^	               _C-e_: Explain Error
-    _C-v_: Check bound vars   ^ ^       	       _C-;_: Load Cargo
+    _C-b_: Eval Buffer            ^ ^	               _C-e_: Explain Error
+    _C-v_: Check bound vars       ^ ^       	       _C-;_: Load Cargo
     _C-p_: Start Repl         _C-d_: Add Dependency    _C-c_: Cargo hydra
 
     "
