@@ -26,8 +26,15 @@
 
 (defun evcxr-parse-l ()
   (parsec-collect*
-   (parsec-many-as-string (parsec-option (parsec-letter)
-					 (parsec-optional* (parsec-str " "))))
+   (parsec-many-as-string (parsec-option (parsec-optional* (parsec-str " "))
+					 (parsec-or (parsec-letter)
+						    (parsec-str "\"")
+						    (parsec-digit)
+						    (parsec-str "-")
+						    (parsec-str "[")
+						    (parsec-str "]")
+						    (parsec-str ".")
+						    (parsec-str "_"))))
    (parsec-optional* (parsec-lookahead "="))))
 
 (defun evcxr-parse-r ()
@@ -58,6 +65,34 @@
 
 
 ;; Usage
+
+
+(defun evcxr--load-cargo(list)
+  (when list
+    (evcxr-check-header (car list))
+    (evcxr--load-cargo (cdr list))))
+
+(defun evcxr-check-header (list)
+  (when list
+    (if (equal "dependencies" (car list))
+	(evcxr--install-cargo (car(cdr list)))
+      )))
+
+(defun evcxr--install-cargo (list)
+  (when list
+    (evcxr--add-dep (car (car list)) (car(cdr(car list))))
+    (evcxr--install-cargo (cdr list))))
+
+(defun evcxr--add-dep(dep version)
+  (let ((dependency (concat ":dep " (format "%s" dep) " = " (format "%s" version) )))
+    (progn
+      (comint-send-string evcxr-shell-buffer-name dependency)
+      (comint-send-string evcxr-shell-buffer-name "\n"))
+    (print (concat "Dependency " dependency " added "))))
+
+(defun evcxr-load-cargo()
+  (interactive)
+  (evcxr--load-cargo (evcxr-get-cargo-file)))
 
 
 (defun evcxr-is-running? ()
@@ -153,7 +188,7 @@ sDependency version: ")
     (buffer-string)))
 
 
-(defun get-cargo-file()
+(defun evcxr-get-cargo-file()
   (interactive)
   (let ((cargo-file (evcxr-get-string-from-file
 		   (evcxr-find-file-in-hierarchy (file-name-directory buffer-file-name) "Cargo.toml"))))
@@ -328,7 +363,7 @@ See `comint-prompt-read-only' for details."
     _C-r_: Eval Region        _C-t_: Type Check        _C-o_: Toggle optimization
     _C-l_: Eval line          _C-i_: Type in container _C-s_: Clear State
     _C-b_: Eval Buffer        ^ ^	               _C-e_: Explain Error
-    _C-v_: Check bound vars   ^ ^       		   ^ ^
+    _C-v_: Check bound vars   ^ ^       	       _C-;_: Load Cargo
     _C-p_: Start Repl         _C-d_: Add Dependency    _C-c_: Cargo hydra
 
     "
@@ -346,6 +381,7 @@ See `comint-prompt-read-only' for details."
 
       ("C-p" evcxr :color blue)
       ("C-d" evcxr-add-dep :color pink)
+      ("C-;" evcxr-load-cargo :color blue)
       ("C-c" hydra-rust/body :color blue)
 
       ("ESC" nil "Exit")
