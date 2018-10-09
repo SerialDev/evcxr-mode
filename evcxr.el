@@ -382,7 +382,7 @@ See `comint-prompt-read-only' for details."
       ("C-s" evcxr-help-clear-state :color blue)
       ("C-e" evcxr-help-explain-error :color blue)
 
-      ("C-p" evcxr :color blue)
+      ("C-p" evcxr :color pink)
       ("C-d" evcxr-add-dep :color pink)
       ("C-;" evcxr-load-cargo :color blue)
       ("C-c" hydra-rust/body :color blue)
