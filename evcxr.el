@@ -7,11 +7,58 @@
 ;; Version: 0.0.1
 ;; Keywords: rust languages repl
 ;; URL: https://github.com/serialdev/evcxr-mode
-;; Package-Requires: ((emacs "24.3", ))
+;; Package-Requires: ((emacs "24.3", parsec ))
 ;;; Commentary:
 ;; Rust Repl support through evcxr repl
 
 (require 'comint)
+(require 'parsec)
+
+;; Parsing
+
+(defun evcxr-parse-title ()
+  (parsec-collect*
+   (parsec-optional* (parsec-str "["))
+   (parsec-many-as-string (parsec-letter))
+   (parsec-optional* (parsec-str "]"))
+   (parsec-optional* (parsec-option (parsec-newline) (parsec-eof)))))
+
+
+(defun evcxr-parse-l ()
+  (parsec-collect*
+   (parsec-many-as-string (parsec-option (parsec-letter)
+					 (parsec-optional* (parsec-str " "))))
+   (parsec-optional* (parsec-lookahead "="))))
+
+(defun evcxr-parse-r ()
+  (parsec-collect*
+   (parsec-optional* (parsec-str "="))
+   (parsec-many-as-string (parsec-option (parsec-optional* (parsec-str " "))
+					 (parsec-or (parsec-letter)
+						    (parsec-str "\"")
+						    (parsec-digit)
+						    (parsec-str "-")
+						    (parsec-str "[")
+						    (parsec-str "]")
+						    (parsec-str ".")
+						    (parsec-str "_"))))
+   (parsec-optional* (parsec-option (parsec-newline) (parsec-eof)))))
+
+
+(defun evcxr-parse-toml (input)
+  (parsec-with-input input
+    (parsec-many
+     (parsec-collect*
+      (car (evcxr-parse-title))
+      (parsec-many
+       (parsec-collect
+	(car(evcxr-parse-l))
+	(car(evcxr-parse-r))))
+      (parsec-optional* (parsec-option (parsec-newline) (parsec-eof)))))))
+
+
+;; Usage
+
 
 (defun evcxr-is-running? ()
   "Return non-nil if evcxr is running."
@@ -110,7 +157,7 @@ sDependency version: ")
   (interactive)
   (let ((cargo-file (evcxr-get-string-from-file
 		   (evcxr-find-file-in-hierarchy (file-name-directory buffer-file-name) "Cargo.toml"))))
-      (print cargo-file)))
+      (evcxr-parse-toml cargo-file)))
 
 
 (defun evcxr-help-bound-vars ()

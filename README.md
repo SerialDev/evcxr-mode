@@ -24,12 +24,14 @@ Alternatively pull the repo and add to your init file
 git clone https://github.com/SerialDev/evcxr-mode
 ```
 
+## Hard Requirements
+Parsec is required, for parsing Toml files using monadic parser combinators
+
+
 ## Optional requirements
 
 It is preferable to have hydra installed, since I have provided a hydra interface.
 To get the full support of the hydras it is recommended that you install cargo.el
-
-!TODO: Will be added to melpa once all basic functionality works
 
 # Current functionality:
 
@@ -56,5 +58,3 @@ Make sure that your cargo bin is accessible to emacs
 ## Rust Repl mode based on:
 
 Ecvxr: https://github.com/google/evcxr
-
-Heavily based on Rusti.el
