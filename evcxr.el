@@ -322,6 +322,13 @@ See `comint-prompt-read-only' for details."
   (ansi-color-filter-apply output))
 
 
+(defun evcxr--cargo-doc-tree()
+  "Get the mccabe complexity for this buffer."
+  (interactive)
+  (message
+   (shell-command-to-string(message "tree -d %starget/doc -L 1 " (projectile-project-root)))))
+
+
 (define-derived-mode inferior-evcxr-mode comint-mode "Evcxr"
   (setq comint-process-echoes t)
   ;; (setq comint-prompt-regexp (format "^\\(?:%s\\|%s\\)"
@@ -421,7 +428,7 @@ See `comint-prompt-read-only' for details."
       ("m"   cargo-process-fmt :color blue)
       ("+r" cargo-process-run-optimized :color blue)
       ("+b" cargo-process-build-optimized :color blue)
-      ("|"   tiqsi/cargo-doc-tree :color blue)
+      ("|"   evcxr--cargo-doc-tree :color blue)
       ("k"   cargo-process-check color: red)
       ("q" cargo-process-clippy :color blue)
       ("ESC" nil "Exit"))
