@@ -256,7 +256,7 @@ current one."
   :safe 'stringp)
 
 
-(defcustom evcxr-shell-prompt-regexp "\\^?\\[?\\[?[[:space:]]?\n?>?>[[:space:]]?"
+(defcustom evcxr-shell-prompt-regexp ">> "
   "Regexp to match prompts for evcxr.
    Matchint top\-level input prompt"
   :group 'evcxr
@@ -435,25 +435,25 @@ See `comint-prompt-read-only' for details."
   (message "Hydra cargo keymap disabled since no hydras installed"))
 
 
-(defun evcxr-rust-keymap()
+; ------------------------------------------------------------------------- ;
+;                                Keybindings                                ;
+; ------------------------------------------------------------------------- ;
+
+(define-key rust-mode-map (kbd "C-c C-c") #'evcxr-eval-buffer)
+(define-key rust-mode-map (kbd "C-c C-d") #'evcxr-add-dep)
+(define-key rust-mode-map (kbd "C-c C-r") #'evcxr-eval-region)
+(define-key rust-mode-map (kbd "C-c C-l") #'evcxr-eval-line)
+(define-key rust-mode-map (kbd "C-c C-t") #'evcxr-type-check)
+(define-key rust-mode-map (kbd "C-c C-i") #'evcxr-type-check-in-container)
+(define-key rust-mode-map (kbd "C-c C-o") #'evcxr-help-toggle-optimization)
+(define-key rust-mode-map (kbd "C-c C-s") #'evcxr-help-clear-state)
+(define-key rust-mode-map (kbd "C-c C-v") #'evcxr-help-bound-vars)
+(define-key rust-mode-map (kbd "C-c C-e") #'evcxr-help-explain-error)
+(define-key rust-mode-map (kbd "C-c C-p") #'evcxr)
+
 (if (require 'hydra nil 'noerror)
     (define-key rust-mode-map (kbd "C-c C-c") #'evcxr-hydra-/body)
-  (progn
-    (define-key rust-mode-map (kbd "C-c C-c") #'evcxr-eval-buffer)
-    (define-key rust-mode-map (kbd "C-c C-d") #'evcxr-add-dep)
-    (define-key rust-mode-map (kbd "C-c C-r") #'evcxr-eval-region)
-    (define-key rust-mode-map (kbd "C-c C-l") #'evcxr-eval-line)
-    (define-key rust-mode-map (kbd "C-c C-t") #'evcxr-type-check)
-    (define-key rust-mode-map (kbd "C-c C-i") #'evcxr-type-check-in-container)
-    (define-key rust-mode-map (kbd "C-c C-o") #'evcxr-help-toggle-optimization)
-    (define-key rust-mode-map (kbd "C-c C-s") #'evcxr-help-clear-state)
-    (define-key rust-mode-map (kbd "C-c C-v") #'evcxr-help-bound-vars)
-    (define-key rust-mode-map (kbd "C-c C-e") #'evcxr-help-explain-error)
-    (define-key rust-mode-map (kbd "C-c C-p") #'evcxr))))
-
-
-;;;###autoload
-(evcxr-rust-keymap)
+  )
 
 
 (provide 'evcxr)
