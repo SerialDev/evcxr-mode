@@ -11,6 +11,14 @@
 ;;; Commentary:
 ;; Rust Repl support through evcxr repl
 
+; ------------------------------------------------------------------------- ;
+;                                    TODO                                   ;
+; ------------------------------------------------------------------------- ;
+;                                                                           ;
+; strip comments as they are not properly handled in evcxr                  ;
+;                                                                           ;
+; ------------------------------------------------------------------------- ;
+
 (require 'comint)
 (require 'parsec)
 
